@@ -29,18 +29,18 @@ print(Y_train)
 
 # build a model from the 1st layer to the last layer
 model = Sequential()
-model.add(Dense(4, activation='relu', input_dim=2))
-model.add(Dense(8, activation='relu'))
+model.add(Dense(4, activation=keras.layers.LeakyReLU(alpha=0.3), input_dim=2))
+model.add(Dense(8, activation=keras.layers.LeakyReLU(alpha=0.3)))
 #model.add(Dense(4, activation='relu'))
 #model.add(Dense(4, activation='relu'))
-model.add(Dense(2, activation='relu'))
+model.add(Dense(2, activation=keras.layers.LeakyReLU(alpha=0.3)))
 model.add(Dense(1))
  
 #choose loss function and optimizing method
 model.compile(loss='mean_squared_error', optimizer=keras.optimizers.SGD(lr=0.000001, momentum=0.9))
  
 print("Training.....")
-model.fit(X_train, Y_train, epochs=20000, batch_size=64)
+model.fit(X_train, Y_train, epochs=2000, batch_size=64)
 
 '''
 for step in range(301):
