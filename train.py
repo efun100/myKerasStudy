@@ -13,7 +13,7 @@ rdm = np.random.RandomState(1)
 
 dataset_size = 600 
 
-X = rdm.uniform(1, 300, (dataset_size, 2))
+X = rdm.uniform(1, 3000, (dataset_size, 2))
 # print(type(X))
 
 np.random.shuffle(X)
@@ -37,7 +37,7 @@ model.add(Dense(2, activation=keras.layers.LeakyReLU(alpha=0.3)))
 model.add(Dense(1))
  
 #choose loss function and optimizing method
-model.compile(loss='mean_squared_error', optimizer=keras.optimizers.SGD(lr=0.000001, momentum=0.9))
+model.compile(loss='mean_squared_error', optimizer=keras.optimizers.SGD(lr=0.0000001, momentum=0.9))
  
 print("Training.....")
 model.fit(X_train, Y_train, epochs=2000, batch_size=64)
