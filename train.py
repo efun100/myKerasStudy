@@ -5,6 +5,7 @@ import keras
 from keras.models import Sequential
 from keras.layers import Dense
 import matplotlib.pyplot as plt
+from keras.layers.advanced_activations import LeakyReLU
  
 #create data
 
@@ -29,12 +30,16 @@ print(Y_train)
 
 # build a model from the 1st layer to the last layer
 model = Sequential()
-model.add(Dense(4, activation=keras.layers.LeakyReLU(alpha=0.3), input_dim=2))
-model.add(Dense(8, activation=keras.layers.LeakyReLU(alpha=0.3)))
-model.add(Dense(4, activation=keras.layers.LeakyReLU(alpha=0.3)))
+model.add(Dense(4, input_dim=2))
+model.add(LeakyReLU())
+model.add(Dense(8))
+model.add(LeakyReLU())
+model.add(Dense(4))
+model.add(LeakyReLU())
 #model.add(Dense(4, activation='relu'))
 #model.add(Dense(4, activation='relu'))
-model.add(Dense(2, activation=keras.layers.LeakyReLU(alpha=0.3)))
+model.add(Dense(2))
+model.add(LeakyReLU())
 model.add(Dense(1))
  
 #choose loss function and optimizing method
