@@ -13,12 +13,12 @@ rdm = np.random.RandomState(1)
 
 dataset_size = 600 
 
-X = rdm.uniform(1, 3000, (dataset_size, 2))
+X = rdm.uniform(1, 30, (dataset_size, 2))
 # print(type(X))
 
 np.random.shuffle(X)
 
-Y = [(x1 - x2) for (x1, x2) in X]
+Y = [(x1 * x2) for (x1, x2) in X]
 #print(Y)
 
 #plt.scatter(X,Y)
@@ -40,7 +40,7 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer=keras.optimizers.SGD(lr=0.0000001, momentum=0.9))
  
 print("Training.....")
-model.fit(X_train, Y_train, epochs=2000, batch_size=64)
+model.fit(X_train, Y_train, epochs=100000, batch_size=64)
 
 '''
 for step in range(301):
