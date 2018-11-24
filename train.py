@@ -13,21 +13,23 @@ from keras.callbacks import ReduceLROnPlateau
 np.random.seed(1337)
 rdm = np.random.RandomState(1)
 
-dataset_size = 1100
+dataset_size = 8300
 
-X = rdm.uniform(1, 100, (dataset_size, 2))
+X = rdm.uniform(1, 1000, (dataset_size, 2))
 # print(type(X))
 
 np.random.shuffle(X)
 
-Y = [(x1 * x2) for (x1, x2) in X]
+Y = [(x1 / x2) for (x1, x2) in X]
 #print(Y)
 
 #plt.scatter(X,Y)
 #plt.show()
-X_train,Y_train = X[:1024],Y[:1024]
+X_train,Y_train = X[:8192],Y[:8192]
 print(X_train)
 print(Y_train)
+print(min(Y_train))
+print(max(Y_train))
 
 # build a model from the 1st layer to the last layer
 model = Sequential()
@@ -56,12 +58,13 @@ model.add(LeakyReLU())
 model.add(Dense(1))
  
 #choose loss function and optimizing method
-model.compile(loss='mean_absolute_percentage_error', optimizer=keras.optimizers.SGD(lr=0.00001, momentum=0.9))
+model.compile(loss='mean_absolute_percentage_error', optimizer=keras.optimizers.SGD(lr=0.000001, momentum=0.9))
 
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', patience=1000, mode='auto')
+reduce_lr = ReduceLROnPlateau(monitor='loss', patience=200, mode='auto')
+early_stop = keras.callbacks.EarlyStopping(monitor='loss', patience=500, verbose=0, mode='auto')
  
 print("Training.....")
-model.fit(X_train, Y_train, epochs=100000, batch_size=64, callbacks=[reduce_lr])
+model.fit(X_train, Y_train, epochs=4000, batch_size=64)
 
 '''
 for step in range(301):
@@ -71,7 +74,7 @@ for step in range(301):
 '''
 print ("Testing.....")
 
-X_test,Y_test = X[1024:],Y[1024:]
+X_test,Y_test = X[8192:],Y[8192:]
 cost = model.evaluate(X_test,Y_test,batch_size=40)
 print ("test cost:",cost)
 W,b = model.layers[0].get_weights()
