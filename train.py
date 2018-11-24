@@ -6,6 +6,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 import matplotlib.pyplot as plt
 from keras.layers.advanced_activations import LeakyReLU
+from keras.callbacks import ReduceLROnPlateau
  
 #create data
 
@@ -30,25 +31,37 @@ print(Y_train)
 
 # build a model from the 1st layer to the last layer
 model = Sequential()
-model.add(Dense(4, input_dim=2))
+model.add(Dense(8, input_dim=2))
 model.add(LeakyReLU())
-model.add(Dense(8))
-model.add(LeakyReLU())
+
 model.add(Dense(16))
 model.add(LeakyReLU())
-model.add(Dense(4))
+
+model.add(Dense(32))
+model.add(LeakyReLU())
+
+model.add(Dense(64))
+model.add(LeakyReLU())
+
+model.add(Dense(32))
+model.add(LeakyReLU())
+
+model.add(Dense(16))
+model.add(LeakyReLU())
+
+model.add(Dense(8))
 model.add(LeakyReLU())
 #model.add(Dense(4, activation='relu'))
 #model.add(Dense(4, activation='relu'))
-model.add(Dense(2))
-model.add(LeakyReLU())
 model.add(Dense(1))
  
 #choose loss function and optimizing method
-model.compile(loss='mean_absolute_percentage_error', optimizer=keras.optimizers.SGD(lr=0.000001, momentum=0.9))
+model.compile(loss='mean_absolute_percentage_error', optimizer=keras.optimizers.SGD(lr=0.00001, momentum=0.9))
+
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', patience=1000, mode='auto')
  
 print("Training.....")
-model.fit(X_train, Y_train, epochs=100000, batch_size=64)
+model.fit(X_train, Y_train, epochs=100000, batch_size=64, callbacks=[reduce_lr])
 
 '''
 for step in range(301):
