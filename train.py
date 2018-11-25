@@ -66,6 +66,8 @@ early_stop = keras.callbacks.EarlyStopping(monitor='loss', patience=500, verbose
 print("Training.....")
 model.fit(X_train, Y_train, epochs=4000, batch_size=64)
 
+model.save("division_model.h5")
+
 '''
 for step in range(301):
     cost = model.train_on_batch(X_train,Y_train)
